@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Muhammad Rizo Bekmuhamedov | Graphic Designer</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap"
+        rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-brand" data-i18n="nav.brand">MR / МУХАММАДРИЗО</div>
+        <div class="nav-links">
+            <a href="#home" class="nav-link" data-i18n="nav.home">Главная</a>
+            <a href="#about" class="nav-link" data-i18n="nav.about">Обо мне</a>
+            <a href="#skills" class="nav-link" data-i18n="nav.skills">Навыки</a>
+            <a href="#portfolio" class="nav-link" data-i18n="nav.portfolio">Работы</a>
+            <a href="#contact" class="nav-link" data-i18n="nav.contact">Контакты</a>
+            <div class="lang-switcher">
+                <span class="lang-btn active" data-lang="ru">RU</span>
+                <span class="divider">|</span>
+                <span class="lang-btn" data-lang="tg">TG</span>
+                <span class="divider">|</span>
+                <span class="lang-btn" data-lang="en">EN</span>
+                <div class="theme-toggle">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- 3D Canvas Background -->
+    <canvas id="webgl-canvas"></canvas>
+
+    <main id="main-content">
+        <!-- Hero Section -->
+        <section id="home" class="hero layout-grid">
+            <!-- Left Column -->
+            <div class="hero-col hero-left">
+                <div class="profile-wrapper">
+                    <div class="rotating-badge">
+                        <svg viewBox="0 0 100 100" width="100" height="100">
+                            <defs>
+                                <path id="circlePath" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" />
+                            </defs>
+                            <text font-size="11" letter-spacing="3.5">
+                                <textPath href="#circlePath">
+                                    GRAPHIC DESIGN • GRAPHIC DESIGN •
+                                </textPath>
+                            </text>
+                        </svg>
+                    </div>
+                    <div class="profile-img-container">
+                        <img src="Я.HEIC_202609011758.jpeg" alt="Profile" class="profile-img">
+                    </div>
+                </div>
+                <div class="hero-info-blocks">
+                    <div class="info-block">
+                        <p data-i18n="hero.based">BASED IN<br>DUSHANBE, TJ</p>
+                    </div>
+                    <div class="info-block">
+                        <p data-i18n="hero.available">AVAILABLE FOR<br>PROJECTS</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Center Column -->
+            <div class="hero-col hero-center">
+                <h1 class="hero-title reveal-text">
+                    <span class="block" data-i18n="hero.title_first">БЕКМУХАМЕДОВ</span>
+                    <span class="block" data-i18n="hero.title_last">МУХАММАДРИЗО</span>
+                </h1>
+                <h2 class="hero-subtitle reveal-text" data-i18n="hero.subtitle">GRAPHIC DESIGNER</h2>
+                <p class="hero-desc reveal-text" data-i18n="hero.desc">
+                    Создаю визуальные решения,<br>которые превращают идеи<br>в сильный дизайн.
+                </p>
+                <div class="hero-btns reveal-text">
+                    <a href="#portfolio" class="btn btn-primary" data-hover data-i18n="hero.btn_portfolio">МОИ
+                        РАБОТЫ</a>
+                    <a href="#contact" class="btn btn-secondary" data-hover data-i18n="hero.btn_contact">СВЯЗАТЬСЯ СО
+                        МНОЙ</a>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="hero-col hero-right">
+                <div class="year-badge">
+                    <span>20</span>
+                    <span>26</span>
+                </div>
+                <div class="scroll-explore">
+                    <span data-i18n="hero.explore">SCROLL<br>TO EXPLORE</span>
+                    <div class="dot"></div>
+                </div>
+            </div>
+
+            <div class="decorative-circle"></div>
+        </section>
+
+
+
+        <!-- About Section -->
+        <section id="about" class="about section-padding">
+            <div class="container">
+                <h2 class="section-title" data-scroll data-i18n="about.title">ОБО МНЕ</h2>
+                <div class="about-grid">
+                    <div class="about-text-container" data-scroll>
+                        <p class="about-text" data-i18n="about.p1">
+                            Меня зовут Бекмухамедов Мухаммадризо. Я графический дизайнер, который работает с визуальной
+                            айдентикой, рекламными материалами, брендингом и современными digital-дизайнами.
+                        </p>
+                        <p class="about-text" data-i18n="about.p2">
+                            Мне нравится сочетать минимализм, эстетику и современные визуальные решения, чтобы создавать
+                            запоминающийся дизайн.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="skills section-padding">
+            <div class="container">
+                <h2 class="section-title" data-scroll data-i18n="skills.title">МОИ НАВЫКИ</h2>
+                <div class="skills-grid">
+                    <!-- Skill Cards with Tilt Effect -->
+                    <div class="skill-card tilt-card" data-scroll>
+                        <div class="skill-content">
+                            <h3>PHOTOSHOP</h3>
+                            <p>Adobe Photoshop</p>
+                        </div>
+                        <div class="glass-bg"></div>
+                    </div>
+                    <div class="skill-card tilt-card" data-scroll>
+                        <div class="skill-content">
+                            <h3>ILLUSTRATOR</h3>
+                            <p>Adobe Illustrator</p>
+                        </div>
+                        <div class="glass-bg"></div>
+                    </div>
+                    <div class="skill-card tilt-card" data-scroll>
+                        <div class="skill-content">
+                            <h3>CORELDRAW</h3>
+                            <p>CorelDRAW</p>
+                        </div>
+                        <div class="glass-bg"></div>
+                    </div>
+                    <div class="skill-card tilt-card" data-scroll>
+                        <div class="skill-content">
+                            <h3>FIGMA</h3>
+                            <p>Figma</p>
+                        </div>
+                        <div class="glass-bg"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Portfolio Section -->
+        <section id="portfolio" class="portfolio">
+            <div class="portfolio-header">
+                <div class="portfolio-title-col">
+                    <h2 class="section-title serif-title" data-scroll data-i18n="portfolio.selected">SELECTED<br>WORKS
+                    </h2>
+                    <p class="portfolio-years">2025 — 2026</p>
+                    <a href="#" class="view-all" data-i18n="portfolio.view_all">VIEW ALL PROJECTS ↗</a>
+                </div>
+                <!-- Horizontal Layout for Works -->
+                <div class="portfolio-items-wrapper">
+                    <!-- Item 1 -->
+                    <div class="portfolio-item-new" data-scroll data-img="photo_2026-09-02_00-58-46.jpg">
+                        <div class="item-meta">
+                            <span class="item-number">01</span>
+                            <div class="item-tags">
+                                <p data-i18n="portfolio.tag.brand_identity">BRAND IDENTITY</p>
+                                <p data-i18n="portfolio.tag.art_direction">ART DIRECTION</p>
+                            </div>
+                            <span class="item-year">2026</span>
+                        </div>
+                        <div class="item-image"><img src="photo_2026-09-02_00-58-46.jpg" alt="Project 1"></div>
+                        <a href="#" class="view-project" data-i18n="portfolio.view_project">VIEW PROJECT ↗</a>
+                    </div>
+                    <!-- Item 2 -->
+                    <div class="portfolio-item-new" data-scroll data-img="image_2026-09-02_01-19-41.png">
+                        <div class="item-meta">
+                            <span class="item-number">02</span>
+                            <div class="item-tags">
+                                <p data-i18n="portfolio.tag.print_design">PRINT DESIGN</p>
+                                <p data-i18n="portfolio.tag.editorial">EDITORIAL</p>
+                            </div>
+                            <span class="item-year">2026</span>
+                        </div>
+                        <div class="item-image"><img src="image_2026-09-02_01-19-41.png" alt="Project 2"></div>
+                        <a href="#" class="view-project" data-i18n="portfolio.view_project">VIEW PROJECT ↗</a>
+                    </div>
+                    <!-- Item 3 -->
+                    <div class="portfolio-item-new" data-scroll data-img="3D.jpg">
+                        <div class="item-meta">
+                            <span class="item-number">03</span>
+                            <div class="item-tags">
+                                <p data-i18n="portfolio.tag.packaging">PACKAGING</p>
+                                <p data-i18n="portfolio.tag.design">DESIGN</p>
+                            </div>
+                            <span class="item-year">2026</span>
+                        </div>
+                        <div class="item-image"><img src="3D.jpg" alt="Project 3"></div>
+                        <a href="#" class="view-project" data-i18n="portfolio.view_project">VIEW PROJECT ↗</a>
+                    </div>
+                    <!-- Item 4 -->
+                    <div class="portfolio-item-new" data-scroll data-img="bmk 10.png">
+                        <div class="item-meta">
+                            <span class="item-number">04</span>
+                            <div class="item-tags">
+                                <p>GRAPHIC DESIGN</p>
+                            </div>
+                            <span class="item-year">2026</span>
+                        </div>
+                        <div class="item-image"><img src="bmk 10.png" alt="Project 4"></div>
+                        <a href="#" class="view-project" data-i18n="portfolio.view_project">VIEW PROJECT ↗</a>
+                    </div>
+                    <!-- Item 5 -->
+                    <div class="portfolio-item-new" data-scroll data-img="Camera.png">
+                        <div class="item-meta">
+                            <span class="item-number">05</span>
+                            <div class="item-tags">
+                                <p>PRODUCT DESIGN</p>
+                            </div>
+                            <span class="item-year">2026</span>
+                        </div>
+                        <div class="item-image"><img src="Camera.png" alt="Project 5"></div>
+                        <a href="#" class="view-project" data-i18n="portfolio.view_project">VIEW PROJECT ↗</a>
+                    </div>
+                    <!-- Item 6 -->
+                    <div class="portfolio-item-new" data-scroll data-img="Rolup.png">
+                        <div class="item-meta">
+                            <span class="item-number">06</span>
+                            <div class="item-tags">
+                                <p>PRINT DESIGN</p>
+                            </div>
+                            <span class="item-year">2026</span>
+                        </div>
+                        <div class="item-image"><img src="Rolup.png" alt="Project 6"></div>
+                        <a href="#" class="view-project" data-i18n="portfolio.view_project">VIEW PROJECT ↗</a>
+                    </div>
+                    <!-- Item 7 -->
+                    <div class="portfolio-item-new" data-scroll data-img="as.png">
+                        <div class="item-meta">
+                            <span class="item-number">07</span>
+                            <div class="item-tags">
+                                <p>GRAPHIC DESIGN</p>
+                            </div>
+                            <span class="item-year">2026</span>
+                        </div>
+                        <div class="item-image"><img src="as.png" alt="Project 7"></div>
+                        <a href="#" class="view-project" data-i18n="portfolio.view_project">VIEW PROJECT ↗</a>
+                    </div>
+                    <!-- Item 8 -->
+                    <div class="portfolio-item-new" data-scroll data-img="image_2026-09-02_01-54-51.png">
+                        <div class="item-meta">
+                            <span class="item-number">08</span>
+                            <div class="item-tags">
+                                <p>VISUAL IDENTITY</p>
+                            </div>
+                            <span class="item-year">2026</span>
+                        </div>
+                        <div class="item-image"><img src="image_2026-09-02_01-54-51.png" alt="Project 8"></div>
+                        <a href="#" class="view-project" data-i18n="portfolio.view_project">VIEW PROJECT ↗</a>
+                    </div>
+                    <!-- Item 9 -->
+                    <div class="portfolio-item-new" data-scroll data-img="image_2026-09-02_02-02-00.png">
+                        <div class="item-meta">
+                            <span class="item-number">09</span>
+                            <div class="item-tags">
+                                <p>ART DIRECTION</p>
+                            </div>
+                            <span class="item-year">2026</span>
+                        </div>
+                        <div class="item-image"><img src="image_2026-09-02_02-02-00.png" alt="Project 9"></div>
+                        <a href="#" class="view-project" data-i18n="portfolio.view_project">VIEW PROJECT ↗</a>
+                    </div>
+                    <!-- Item 10 -->
+                    <div class="portfolio-item-new" data-scroll data-img="image_2026-09-02_02-03-42.png">
+                        <div class="item-meta">
+                            <span class="item-number">10</span>
+                            <div class="item-tags">
+                                <p>GRAPHIC DESIGN</p>
+                            </div>
+                            <span class="item-year">2026</span>
+                        </div>
+                        <div class="item-image"><img src="image_2026-09-02_02-03-42.png" alt="Project 10"></div>
+                        <a href="#" class="view-project" data-i18n="portfolio.view_project">VIEW PROJECT ↗</a>
+                    </div>
+                    <!-- Item 11 -->
+                    <div class="portfolio-item-new" data-scroll data-img="image_2026-09-02_02-05-00.png">
+                        <div class="item-meta">
+                            <span class="item-number">11</span>
+                            <div class="item-tags">
+                                <p>BRANDING</p>
+                            </div>
+                            <span class="item-year">2026</span>
+                        </div>
+                        <div class="item-image"><img src="image_2026-09-02_02-05-00.png" alt="Project 11"></div>
+                        <a href="#" class="view-project" data-i18n="portfolio.view_project">VIEW PROJECT ↗</a>
+                    </div>
+                    <!-- Item 12 -->
+                    <div class="portfolio-item-new" data-scroll data-img="photo_2026-09-02_00-57-26.jpg">
+                        <div class="item-meta">
+                            <span class="item-number">12</span>
+                            <div class="item-tags">
+                                <p>GRAPHIC DESIGN</p>
+                            </div>
+                            <span class="item-year">2026</span>
+                        </div>
+                        <div class="item-image"><img src="photo_2026-09-02_00-57-26.jpg" alt="Project 12"></div>
+                        <a href="#" class="view-project" data-i18n="portfolio.view_project">VIEW PROJECT ↗</a>
+                    </div>
+                    <!-- Item 13 -->
+                    <div class="portfolio-item-new" data-scroll data-img="photo_2026-09-02_01-03-28.jpg">
+                        <div class="item-meta">
+                            <span class="item-number">13</span>
+                            <div class="item-tags">
+                                <p>VISUAL IDENTITY</p>
+                            </div>
+                            <span class="item-year">2026</span>
+                        </div>
+                        <div class="item-image"><img src="photo_2026-09-02_01-03-28.jpg" alt="Project 13"></div>
+                        <a href="#" class="view-project" data-i18n="portfolio.view_project">VIEW PROJECT ↗</a>
+                    </div>
+                    <!-- Item 14 -->
+                    <div class="portfolio-item-new" data-scroll data-img="photo_2026-09-02_01-12-02.jpg">
+                        <div class="item-meta">
+                            <span class="item-number">14</span>
+                            <div class="item-tags">
+                                <p>ART DIRECTION</p>
+                            </div>
+                            <span class="item-year">2026</span>
+                        </div>
+                        <div class="item-image"><img src="photo_2026-09-02_01-12-02.jpg" alt="Project 14"></div>
+                        <a href="#" class="view-project" data-i18n="portfolio.view_project">VIEW PROJECT ↗</a>
+                    </div>
+                    <!-- Item 15 -->
+                    <div class="portfolio-item-new" data-scroll data-img="photo_2026-09-02_01-17-00.jpg">
+                        <div class="item-meta">
+                            <span class="item-number">15</span>
+                            <div class="item-tags">
+                                <p>GRAPHIC DESIGN</p>
+                            </div>
+                            <span class="item-year">2026</span>
+                        </div>
+                        <div class="item-image"><img src="photo_2026-09-02_01-17-00.jpg" alt="Project 15"></div>
+                        <a href="#" class="view-project" data-i18n="portfolio.view_project">VIEW PROJECT ↗</a>
+                    </div>
+                    <!-- Item 16 -->
+                    <div class="portfolio-item-new" data-scroll data-img="Баннер Кроссовки.png">
+                        <div class="item-meta">
+                            <span class="item-number">16</span>
+                            <div class="item-tags">
+                                <p>ADVERTISING</p>
+                            </div>
+                            <span class="item-year">2026</span>
+                        </div>
+                        <div class="item-image"><img src="Баннер Кроссовки.png" alt="Project 16"></div>
+                        <a href="#" class="view-project" data-i18n="portfolio.view_project">VIEW PROJECT ↗</a>
+                    </div>
+                    <!-- Item 17 -->
+                    <div class="portfolio-item-new" data-scroll data-img="Информационная Доска.png">
+                        <div class="item-meta">
+                            <span class="item-number">17</span>
+                            <div class="item-tags">
+                                <p>INFO DESIGN</p>
+                            </div>
+                            <span class="item-year">2026</span>
+                        </div>
+                        <div class="item-image"><img src="Информационная Доска.png" alt="Project 17"></div>
+                        <a href="#" class="view-project" data-i18n="portfolio.view_project">VIEW PROJECT ↗</a>
+                    </div>
+                    <!-- Item 18 -->
+                    <div class="portfolio-item-new" data-scroll data-img="Пульт.png">
+                        <div class="item-meta">
+                            <span class="item-number">18</span>
+                            <div class="item-tags">
+                                <p>PRODUCT DESIGN</p>
+                            </div>
+                            <span class="item-year">2026</span>
+                        </div>
+                        <div class="item-image"><img src="Пульт.png" alt="Project 18"></div>
+                        <a href="#" class="view-project" data-i18n="portfolio.view_project">VIEW PROJECT ↗</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="contact section-padding">
+            <div class="container">
+                <h2 class="contact-title" data-scroll data-i18n="contact.title">ДАВАЙ СОЗДАДИМ ЧТО-ТО СИЛЬНОЕ</h2>
+                <p class="contact-desc" data-scroll data-i18n="contact.desc">Есть идея или проект? Давайте обсудим, как
+                    превратить её в сильный визуальный образ.</p>
+
+                <form class="contact-form" data-scroll>
+                    <div class="form-group">
+                        <input type="text" id="name" placeholder="Имя" required
+                            data-i18n-placeholder="contact.form.name">
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="email" placeholder="Email" required
+                            data-i18n-placeholder="contact.form.email">
+                    </div>
+                    <div class="form-group">
+                        <textarea id="message" rows="5" placeholder="Сообщение" required
+                            data-i18n-placeholder="contact.form.message"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary submit-btn" data-hover
+                        data-i18n="contact.btn">ОТПРАВИТЬ</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container footer-content">
+                <div class="footer-brand">
+                    <h3 data-i18n="footer.title">Бекмухамедов Мухаммадризо</h3>
+                    <p data-i18n="footer.subtitle">GRAPHIC DESIGNER</p>
+                </div>
+                <div class="footer-copy">
+                    <p data-i18n="footer.copy">&copy; 2026 Muhammad Rizo Bekmuhamedov. All Rights Reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <!-- Marquee -->
+    <div class="marquee-container">
+        <div class="marquee-content" data-i18n="marquee.text">
+            BRANDING • VISUAL IDENTITY • GRAPHIC DESIGN • ART DIRECTION • BRANDING • VISUAL IDENTITY • GRAPHIC DESIGN •
+            ART DIRECTION •
+        </div>
+    </div>
+
+    <!-- Modal for Portfolio -->
+    <div class="modal" id="portfolio-modal">
+        <div class="modal-close" data-hover>&times;</div>
+        <div class="modal-content">
+            <div class="modal-img"></div>
+            <div class="modal-info">
+                <h3 class="modal-title"></h3>
+                <p class="modal-category"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="translations.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
