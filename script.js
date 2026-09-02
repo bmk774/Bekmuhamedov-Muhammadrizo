@@ -118,7 +118,7 @@ const initThreeJS = () => {
         }
     }
     
-    const geometry = new THREE.TubeGeometry(new InfinityCurve(1.5), 256, 0.4, 64, true);
+    const geometry = new THREE.TubeGeometry(new InfinityCurve(0.6), 256, 0.18, 64, true);
     const material = new THREE.MeshPhysicalMaterial({
         color: 0x111111, // Dark grey/black
         metalness: 1.0,

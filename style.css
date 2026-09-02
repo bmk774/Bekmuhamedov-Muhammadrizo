@@ -848,6 +848,45 @@ h1, h2, h3, h4, h5, h6 {
     .portfolio-grid {
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     }
+    
+    /* New Layout Responsive */
+    .hero {
+        grid-template-columns: 1fr;
+        padding-top: 100px;
+        min-height: auto;
+    }
+    
+    .hero-left, .hero-center, .hero-right {
+        border: none;
+        padding: 40px 20px;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .hero-center {
+        padding-left: 20px;
+        order: -1; /* Put text on top on mobile */
+    }
+
+    .hero-title {
+        font-size: 10vw;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.5rem;
+    }
+    
+    .portfolio-items-wrapper {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .portfolio-item-new:nth-child(3n) {
+        border-right: 1px solid var(--border-color);
+    }
+    
+    .portfolio-item-new:nth-child(2n) {
+        border-right: none;
+    }
 }
 
 @media (max-width: 768px) {
@@ -905,6 +944,26 @@ h1, h2, h3, h4, h5, h6 {
     
     .hero-btns {
         flex-direction: column;
+    }
+    
+    .portfolio-items-wrapper {
+        grid-template-columns: 1fr;
+    }
+    
+    .portfolio-item-new, .portfolio-item-new:nth-child(3n) {
+        border-right: none;
+    }
+    
+    .section-title {
+        font-size: 3rem;
+    }
+    
+    .modal-title {
+        font-size: 1.8rem;
+    }
+    
+    .marquee-content {
+        font-size: 2rem;
     }
     
     .footer-content {
