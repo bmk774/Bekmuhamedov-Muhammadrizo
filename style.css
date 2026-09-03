@@ -30,6 +30,8 @@
 
 html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
+    max-width: 100%;
 }
 
 body {
@@ -37,6 +39,8 @@ body {
     color: var(--text-main);
     font-family: var(--font-body);
     overflow-x: hidden;
+    max-width: 100%;
+    position: relative;
     line-height: 1.6;
     transition: background-color 0.4s ease, color 0.4s ease;
 }
@@ -912,6 +916,9 @@ h1, h2, h3, h4, h5, h6 {
     .section-padding {
         padding: 60px 0;
     }
+    .decorative-circle {
+        display: none;
+    }
     .cursor, .cursor-follower {
         display: none !important;
     }
@@ -964,6 +971,14 @@ h1, h2, h3, h4, h5, h6 {
     
     .portfolio-items-wrapper {
         grid-template-columns: 1fr;
+    }
+    
+    .portfolio-item-new {
+        padding: 20px;
+    }
+    
+    .item-meta {
+        margin-bottom: 20px;
     }
     
     .portfolio-item-new, .portfolio-item-new:nth-child(3n) {
