@@ -15,6 +15,16 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="style.css">
+    <!-- Force scroll to top on load -->
+    <script>
+        if ('scrollRestoration' in history) {
+            history.scrollRestoration = 'manual';
+        }
+        window.scrollTo(0, 0);
+        if (window.location.hash) {
+            history.replaceState('', document.title, window.location.pathname + window.location.search);
+        }
+    </script>
 </head>
 
 <body>
