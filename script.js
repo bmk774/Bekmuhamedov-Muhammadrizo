@@ -271,12 +271,20 @@ portfolioItems.forEach(item => {
         e.preventDefault();
         
         if (item.dataset.pdf) {
-            window.open(item.dataset.pdf, '_blank');
+            if (window.innerWidth <= 768 || /Mobi|Android/i.test(navigator.userAgent)) {
+                window.location.href = item.dataset.pdf;
+            } else {
+                window.open(item.dataset.pdf, '_blank');
+            }
             return;
         }
         
         if (item.dataset.figma) {
-            window.open(item.dataset.figma, '_blank');
+            if (window.innerWidth <= 768 || /Mobi|Android/i.test(navigator.userAgent)) {
+                window.location.href = item.dataset.figma;
+            } else {
+                window.open(item.dataset.figma, '_blank');
+            }
             return;
         }
 
