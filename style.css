@@ -876,6 +876,19 @@ h1, h2, h3, h4, h5, h6 {
         font-size: 1.5rem;
     }
     
+    .portfolio-header {
+        flex-direction: column;
+    }
+    
+    .portfolio-title-col {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+        padding: 40px 20px;
+        align-items: center;
+        text-align: center;
+    }
+    
     .portfolio-items-wrapper {
         grid-template-columns: repeat(2, 1fr);
     }
@@ -890,8 +903,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @media (max-width: 768px) {
-    .container, .hero {
+    .container {
         padding: 0 20px;
+    }
+    .hero {
+        padding: 120px 20px 40px;
     }
     .section-padding {
         padding: 60px 0;
