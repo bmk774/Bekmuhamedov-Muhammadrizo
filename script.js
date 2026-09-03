@@ -1,8 +1,12 @@
 // Force scroll to top on load
-if ('scrollRestoration' in history) {
-    history.scrollRestoration = 'manual';
-}
-window.scrollTo(0, 0);
+window.addEventListener('pageshow', function() {
+    if ('scrollRestoration' in history) {
+        history.scrollRestoration = 'manual';
+    }
+    setTimeout(function() {
+        window.scrollTo(0, 0);
+    }, 100);
+});
 
 // GSAP ScrollTrigger
 gsap.registerPlugin(ScrollTrigger);
