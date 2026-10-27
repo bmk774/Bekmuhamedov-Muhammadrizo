@@ -9,7 +9,7 @@ const translations = {
         
         'hero.title_first': 'БЕКМУХАМЕДОВ',
         'hero.title_last': 'МУХАММАДРИЗО',
-        'hero.subtitle': 'GRAPHIC DESIGNER',
+        'hero.subtitle': 'GRAPHIC & UI/UX DESIGNER',
         'hero.desc': 'Создаю визуальные решения,<br>которые превращают идеи<br>в сильный дизайн.',
         'hero.btn_portfolio': 'МОИ РАБОТЫ',
         'hero.btn_contact': 'СВЯЗАТЬСЯ СО МНОЙ',
@@ -19,7 +19,7 @@ const translations = {
         'hero.explore': 'SCROLL<br>TO EXPLORE',
         
         'about.title': 'ОБО МНЕ',
-        'about.p1': 'Меня зовут Бекмухамедов Мухаммадризо. Я графический дизайнер, который работает с визуальной айдентикой, рекламными материалами, брендингом и современными digital-дизайнами.',
+        'about.p1': 'Меня зовут Бекмухамедов Мухаммадризо. Я графический и UI/UX дизайнер, который работает с интерфейсами, визуальной айдентикой, рекламными материалами, брендингом и современными digital-дизайнами.',
         'about.p2': 'Мне нравится сочетать минимализм, эстетику и современные визуальные решения, чтобы создавать запоминающийся дизайн.',
         
         'skills.title': 'МОИ НАВЫКИ',
@@ -35,7 +35,7 @@ const translations = {
         'portfolio.tag.packaging': 'PACKAGING',
         'portfolio.tag.design': 'DESIGN',
         
-        'marquee.text': 'BRANDING • VISUAL IDENTITY • GRAPHIC DESIGN • ART DIRECTION • BRANDING • VISUAL IDENTITY • GRAPHIC DESIGN • ART DIRECTION •',
+        'marquee.text': 'BRANDING • UI/UX DESIGN • VISUAL IDENTITY • GRAPHIC DESIGN • 3D DESIGN • MOTION GRAPHICS • ART DIRECTION • BRANDING • UI/UX DESIGN • VISUAL IDENTITY • GRAPHIC DESIGN • 3D DESIGN • MOTION GRAPHICS • ART DIRECTION •',
         
         'contact.title': 'ДАВАЙ СОЗДАДИМ ЧТО-ТО СИЛЬНОЕ',
         'contact.desc': 'Есть идея или проект? Давайте обсудим, как превратить её в сильный визуальный образ.',
@@ -45,7 +45,7 @@ const translations = {
         'contact.btn': 'ОТПРАВИТЬ',
         
         'footer.title': 'Бекмухамедов Мухаммадризо',
-        'footer.subtitle': 'GRAPHIC DESIGNER',
+        'footer.subtitle': 'GRAPHIC & UI/UX DESIGNER',
         'footer.copy': '© 2026 Muhammad Rizo Bekmuhamedov. Все права защищены.'
     },
     tg: {
@@ -58,7 +58,7 @@ const translations = {
         
         'hero.title_first': 'БЕКМУҲАМЕДОВ',
         'hero.title_last': 'МУҲАММАДРИЗО',
-        'hero.subtitle': 'ТАРРОҲИ ГРАФИКӢ',
+        'hero.subtitle': 'ТАРРОҲИ ГРАФИКӢ ВА UI/UX',
         'hero.desc': 'Қарорҳои визуалие эҷод мекунам,<br>ки ғояҳоро ба тарҳи<br>пурқувват табдил медиҳанд.',
         'hero.btn_portfolio': 'КОРҲОИ МАН',
         'hero.btn_contact': 'ТАМОС БО МАН',
@@ -68,7 +68,7 @@ const translations = {
         'hero.explore': 'БАРОИ ДИДАН<br>ПОЁН РАВЕД',
         
         'about.title': 'ДАР БОРАИ МАН',
-        'about.p1': 'Номи ман Бекмуҳамедов Муҳаммадризо. Ман тарроҳи графикӣ ҳастам, ки бо айдентикаи визуалӣ, маводҳои таблиғотӣ, брендинг ва тарҳҳои муосири рақамӣ кор мекунам.',
+        'about.p1': 'Номи ман Бекмуҳамедов Муҳаммадризо. Ман тарроҳи графикӣ ва UI/UX ҳастам, ки бо тарҳи интерфейсҳо, айдентикаи визуалӣ, маводҳои таблиғотӣ, брендинг ва тарҳҳои муосири рақамӣ кор мекунам.',
         'about.p2': 'Ман омезиши минимализм, эстетика ва қарорҳои визуалии муосирро барои эҷоди тарҳи хотирмон дӯст медорам.',
         
         'skills.title': 'МАЛАКАҲОИ МАН',
@@ -84,7 +84,7 @@ const translations = {
         'portfolio.tag.packaging': 'БАСТАБАНДӢ',
         'portfolio.tag.design': 'ДИЗАЙН',
         
-        'marquee.text': 'БРЕНДИНГ • АЙДЕНТИКАИ ВИЗУАЛӢ • ДИЗАЙНИ ГРАФИКӢ • САМТИ САНЪАТ • БРЕНДИНГ • АЙДЕНТИКАИ ВИЗУАЛӢ • ДИЗАЙНИ ГРАФИКӢ • САМТИ САНЪАТ •',
+        'marquee.text': 'БРЕНДИНГ • ДИЗАЙНИ UI/UX • АЙДЕНТИКАИ ВИЗУАЛӢ • ДИЗАЙНИ ГРАФИКӢ • ДИЗАЙНИ 3D • МОУШН ГРАФИКА • САМТИ САНЪАТ • БРЕНДИНГ • ДИЗАЙНИ UI/UX • АЙДЕНТИКАИ ВИЗУАЛӢ • ДИЗАЙНИ ГРАФИКӢ • ДИЗАЙНИ 3D • МОУШН ГРАФИКА • САМТИ САНЪАТ •',
         
         'contact.title': 'БИЁЕД ЯК ЧИЗИ ПУРҚУВВАТ ЭҶОД КУНЕМ',
         'contact.desc': 'Ғоя ё лоиҳае доред? Биёед муҳокима кунем, ки чӣ тавр онро ба симои визуалии пурқувват табдил диҳем.',
@@ -94,7 +94,7 @@ const translations = {
         'contact.btn': 'ИРСОЛ КАРДАН',
         
         'footer.title': 'Муҳаммадризо Бекмуҳамедов',
-        'footer.subtitle': 'ТАРРОҲИ ГРАФИКӢ',
+        'footer.subtitle': 'ТАРРОҲИ ГРАФИКӢ ВА UI/UX',
         'footer.copy': '© 2026 Muhammad Rizo Bekmuhamedov. Ҳамаи ҳуқуқҳо маҳфузанд.'
     },
     en: {
@@ -107,7 +107,7 @@ const translations = {
         
         'hero.title_first': 'BEKMUHAMEDOV',
         'hero.title_last': 'MUHAMMADRIZO',
-        'hero.subtitle': 'GRAPHIC DESIGNER',
+        'hero.subtitle': 'GRAPHIC & UI/UX DESIGNER',
         'hero.desc': 'I create visual solutions<br>that turn ideas into<br>powerful design.',
         'hero.btn_portfolio': 'MY WORKS',
         'hero.btn_contact': 'CONTACT ME',
@@ -117,7 +117,7 @@ const translations = {
         'hero.explore': 'SCROLL<br>TO EXPLORE',
         
         'about.title': 'ABOUT ME',
-        'about.p1': 'My name is Muhammad Rizo Bekmuhamedov. I am a graphic designer working with visual identity, promotional materials, branding, and modern digital designs.',
+        'about.p1': 'My name is Muhammad Rizo Bekmuhamedov. I am a graphic and UI/UX designer working with web & mobile interfaces, visual identity, promotional materials, branding, and modern digital designs.',
         'about.p2': 'I like to combine minimalism, aesthetics, and modern visual solutions to create memorable design.',
         
         'skills.title': 'MY SKILLS',
@@ -133,7 +133,7 @@ const translations = {
         'portfolio.tag.packaging': 'PACKAGING',
         'portfolio.tag.design': 'DESIGN',
         
-        'marquee.text': 'BRANDING • VISUAL IDENTITY • GRAPHIC DESIGN • ART DIRECTION • BRANDING • VISUAL IDENTITY • GRAPHIC DESIGN • ART DIRECTION •',
+        'marquee.text': 'BRANDING • UI/UX DESIGN • VISUAL IDENTITY • GRAPHIC DESIGN • 3D DESIGN • MOTION GRAPHICS • ART DIRECTION • BRANDING • UI/UX DESIGN • VISUAL IDENTITY • GRAPHIC DESIGN • 3D DESIGN • MOTION GRAPHICS • ART DIRECTION •',
         
         'contact.title': "LET'S CREATE SOMETHING POWERFUL",
         'contact.desc': "Have an idea or a project? Let's discuss how to turn it into a strong visual image.",
@@ -143,7 +143,7 @@ const translations = {
         'contact.btn': 'SEND',
         
         'footer.title': 'Muhammad Rizo Bekmuhamedov',
-        'footer.subtitle': 'GRAPHIC DESIGNER',
+        'footer.subtitle': 'GRAPHIC & UI/UX DESIGNER',
         'footer.copy': '© 2026 Muhammad Rizo Bekmuhamedov. All Rights Reserved.'
     }
 };

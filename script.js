@@ -40,7 +40,7 @@ if (themeToggle) {
 // Custom Cursor
 const cursor = document.querySelector('.cursor');
 const follower = document.querySelector('.cursor-follower');
-const hoverElements = document.querySelectorAll('a, button, [data-hover], .portfolio-item');
+const hoverElements = document.querySelectorAll('a, button, [data-hover], .portfolio-item, .portfolio-item-new');
 
 let mouseX = 0, mouseY = 0;
 let cursorX = 0, cursorY = 0;
@@ -101,6 +101,9 @@ window.addEventListener('scroll', () => {
     }
 });
 
+let isThreeJSPaused = false;
+let resumeThreeJS = null;
+
 // Three.js Background
 const initThreeJS = () => {
     const canvas = document.querySelector('#webgl-canvas');
@@ -130,7 +133,7 @@ const initThreeJS = () => {
     
     const geometry = new THREE.TubeGeometry(new InfinityCurve(0.6), 256, 0.18, 64, true);
     const material = new THREE.MeshPhysicalMaterial({
-        color: 0x111111, // Dark grey/black
+        color: 0x111111,
         metalness: 1.0,
         roughness: 0.15,
         clearcoat: 1.0,
@@ -141,7 +144,7 @@ const initThreeJS = () => {
     });
     
     const mesh = new THREE.Mesh(geometry, material);
-    mesh.position.x = 3.5; // Offset further to the right
+    mesh.position.x = 3.5;
     scene.add(mesh);
 
     // Lighting
@@ -171,6 +174,7 @@ const initThreeJS = () => {
     const clock = new THREE.Clock();
 
     const animate = () => {
+        if (isThreeJSPaused) return;
         requestAnimationFrame(animate);
         
         const elapsedTime = clock.getElapsedTime();
@@ -180,7 +184,7 @@ const initThreeJS = () => {
         mesh.rotation.x += 0.001;
         
         // Gentle floating + Mouse Position Parallax
-        const targetPosX = 3.5 + targetX * 4; // Base X is 3.5, move by targetX
+        const targetPosX = 3.5 + targetX * 4;
         const targetPosY = Math.sin(elapsedTime * 0.5) * 0.2 - targetY * 4;
         
         mesh.position.x += (targetPosX - mesh.position.x) * 0.05;
@@ -191,6 +195,10 @@ const initThreeJS = () => {
         mesh.rotation.x += 0.1 * (targetY * Math.PI - mesh.rotation.x);
 
         renderer.render(scene, camera);
+    };
+
+    resumeThreeJS = () => {
+        requestAnimationFrame(animate);
     };
 
     animate();
@@ -274,7 +282,79 @@ const modal = document.getElementById('portfolio-modal');
 const modalClose = document.querySelector('.modal-close');
 const modalTitle = document.querySelector('.modal-title');
 const modalCategory = document.querySelector('.modal-category');
+const modalCounter = document.querySelector('.modal-counter');
+const modalGalleryTabs = document.querySelector('.modal-gallery-tabs');
+const modalPrevBtn = document.querySelector('.gallery-arrow.prev');
+const modalNextBtn = document.querySelector('.gallery-arrow.next');
+const modalImg = document.querySelector('.modal-img');
+const modalVideo = document.querySelector('.modal-video');
 const portfolioItems = document.querySelectorAll('.portfolio-item, .portfolio-item-new');
+
+let currentGallery = null;
+let currentGalleryIndex = 0;
+
+function showGalleryItem(index) {
+    if (!currentGallery || !currentGallery.length) return;
+    if (index < 0) index = currentGallery.length - 1;
+    if (index >= currentGallery.length) index = 0;
+    
+    currentGalleryIndex = index;
+    const work = currentGallery[index];
+    
+    // Update Title, Category & Counter
+    modalTitle.textContent = work.title || '';
+    modalCategory.textContent = work.tag || '';
+    if (modalCounter) {
+        modalCounter.textContent = `${String(index + 1).padStart(2, '0')} / ${String(currentGallery.length).padStart(2, '0')}`;
+    }
+    
+    // Update tabs active state
+    if (modalGalleryTabs) {
+        const pills = modalGalleryTabs.querySelectorAll('.gallery-pill');
+        pills.forEach((p, idx) => {
+            if (idx === index) p.classList.add('active');
+            else p.classList.remove('active');
+        });
+    }
+    
+    // Show image or video
+    if (work.type === 'video') {
+        if (modalImg) modalImg.style.display = 'none';
+        if (modalVideo) {
+            modalVideo.style.display = 'block';
+            if (!modalVideo.src.endsWith(work.src)) {
+                modalVideo.src = work.src;
+                modalVideo.load();
+            }
+            modalVideo.currentTime = 0;
+            modalVideo.play().catch(() => {});
+        }
+    } else {
+        if (modalVideo) {
+            modalVideo.pause();
+            modalVideo.style.display = 'none';
+            modalVideo.src = '';
+        }
+        if (modalImg) {
+            modalImg.style.display = 'block';
+            modalImg.style.background = `url("${work.src}") center/contain no-repeat`;
+        }
+    }
+}
+
+if (modalPrevBtn) {
+    modalPrevBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        showGalleryItem(currentGalleryIndex - 1);
+    });
+}
+
+if (modalNextBtn) {
+    modalNextBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        showGalleryItem(currentGalleryIndex + 1);
+    });
+}
 
 portfolioItems.forEach(item => {
     item.addEventListener('click', (e) => {
@@ -298,7 +378,52 @@ portfolioItems.forEach(item => {
             return;
         }
 
-        // Logic for old layout (placeholder-img) and new layout (.item-image img)
+        // Multi-work Gallery Mode (Blender 3D Collection / After Effects Showcase)
+        if (item.dataset.gallery) {
+            try {
+                currentGallery = JSON.parse(item.dataset.gallery);
+            } catch (err) {
+                currentGallery = null;
+            }
+        } else {
+            currentGallery = null;
+        }
+
+        if (currentGallery && currentGallery.length > 0) {
+            if (modalPrevBtn) modalPrevBtn.style.display = currentGallery.length > 1 ? 'flex' : 'none';
+            if (modalNextBtn) modalNextBtn.style.display = currentGallery.length > 1 ? 'flex' : 'none';
+            
+            if (modalGalleryTabs) {
+                modalGalleryTabs.innerHTML = '';
+                modalGalleryTabs.style.display = currentGallery.length > 1 ? 'flex' : 'none';
+                currentGallery.forEach((work, idx) => {
+                    const pill = document.createElement('button');
+                    pill.className = 'gallery-pill' + (idx === 0 ? ' active' : '');
+                    pill.textContent = work.title;
+                    pill.addEventListener('click', (ev) => {
+                        ev.stopPropagation();
+                        showGalleryItem(idx);
+                    });
+                    modalGalleryTabs.appendChild(pill);
+                });
+            }
+            
+            // Free GPU for video: pause Three.js and background video
+            isThreeJSPaused = true;
+            document.querySelectorAll('.item-image video').forEach(v => v.pause());
+
+            showGalleryItem(0);
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            return;
+        }
+
+        // Single Item Mode
+        if (modalPrevBtn) modalPrevBtn.style.display = 'none';
+        if (modalNextBtn) modalNextBtn.style.display = 'none';
+        if (modalGalleryTabs) modalGalleryTabs.style.display = 'none';
+        if (modalCounter) modalCounter.textContent = '';
+
         const isNewLayout = item.classList.contains('portfolio-item-new');
         let title = '';
         let category = '';
@@ -306,49 +431,228 @@ portfolioItems.forEach(item => {
 
         if (isNewLayout) {
             imgElement = item.querySelector('.item-image img');
-            title = 'Project ' + item.querySelector('.item-number').textContent;
+            if (item.dataset.title) {
+                title = item.dataset.title;
+            } else {
+                title = 'Project ' + item.querySelector('.item-number').textContent;
+            }
             
-            // Gather all tags as the category text
             const tags = item.querySelectorAll('.item-tags p');
             category = Array.from(tags).map(t => t.textContent).join(', ');
             
         } else {
             const h3 = item.querySelector('h3');
             const p = item.querySelector('p');
-            if(h3) title = h3.textContent;
-            if(p) category = p.textContent;
+            if (h3) title = h3.textContent;
+            if (p) category = p.textContent;
             imgElement = item.querySelector('.placeholder-img');
         }
         
         modalTitle.textContent = title;
         modalCategory.textContent = category;
         
-        const modalImg = document.querySelector('.modal-img');
-        
-        // Ensure image fits and shows properly in modal
-        if (imgElement && imgElement.tagName.toLowerCase() === 'img') {
-            modalImg.style.background = `url("${imgElement.src}") center/contain no-repeat`;
-        } else if (imgElement) {
-            const bgGradient = window.getComputedStyle(imgElement).background;
-            modalImg.style.background = bgGradient;
-        } else if (item.dataset.img) {
-            modalImg.style.background = `url("${item.dataset.img}") center/contain no-repeat`;
+        // Free GPU for video: pause Three.js and background video
+        isThreeJSPaused = true;
+        document.querySelectorAll('.item-image video').forEach(v => v.pause());
+
+        if (item.dataset.video) {
+            if (modalImg) modalImg.style.display = 'none';
+            if (modalVideo) {
+                modalVideo.style.display = 'block';
+                if (!modalVideo.src.endsWith(item.dataset.video)) {
+                    modalVideo.src = item.dataset.video;
+                    modalVideo.load();
+                }
+                modalVideo.currentTime = 0;
+                modalVideo.play().catch(() => {});
+            }
+        } else {
+            if (modalVideo) {
+                modalVideo.pause();
+                modalVideo.style.display = 'none';
+                modalVideo.src = '';
+            }
+            if (modalImg) {
+                modalImg.style.display = 'block';
+                if (imgElement && imgElement.tagName.toLowerCase() === 'img') {
+                    modalImg.style.background = `url("${imgElement.src}") center/contain no-repeat`;
+                } else if (imgElement) {
+                    const bgGradient = window.getComputedStyle(imgElement).background;
+                    modalImg.style.background = bgGradient;
+                } else if (item.dataset.img) {
+                    modalImg.style.background = `url("${item.dataset.img}") center/contain no-repeat`;
+                }
+            }
         }
         
         modal.classList.add('active');
-        document.body.style.overflow = 'hidden'; // Prevent scrolling
+        document.body.style.overflow = 'hidden';
     });
 });
 
-modalClose.addEventListener('click', () => {
+const closeModal = () => {
+    if (document.fullscreenElement || document.webkitFullscreenElement) {
+        if (document.exitFullscreen) {
+            document.exitFullscreen().catch(() => {});
+        } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+        }
+    }
     modal.classList.remove('active');
     document.body.style.overflow = '';
-});
+    currentGallery = null;
+    if (modalVideo) {
+        modalVideo.pause();
+        modalVideo.currentTime = 0;
+        modalVideo.src = '';
+    }
+    // Resume Three.js 3D background
+    isThreeJSPaused = false;
+    if (typeof resumeThreeJS === 'function') resumeThreeJS();
+    // Resume background card videos
+    document.querySelectorAll('.item-image video').forEach(v => v.play().catch(() => {}));
+};
 
-// Close modal on click outside
+modalClose.addEventListener('click', closeModal);
+
 modal.addEventListener('click', (e) => {
     if (e.target === modal) {
-        modal.classList.remove('active');
-        document.body.style.overflow = '';
+        closeModal();
     }
 });
+
+// Toggle Fullscreen on video click (First click enters fullscreen, next click exits)
+if (modalVideo) {
+    modalVideo.controls = false;
+    modalVideo.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+            if (modalVideo.requestFullscreen) {
+                modalVideo.requestFullscreen().catch(() => {});
+            } else if (modalVideo.webkitRequestFullscreen) {
+                modalVideo.webkitRequestFullscreen();
+            } else if (modalVideo.msRequestFullscreen) {
+                modalVideo.msRequestFullscreen();
+            }
+        } else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen().catch(() => {});
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+            } else if (document.msExitFullscreen) {
+                document.msExitFullscreen();
+            }
+        }
+    });
+}
+
+// Toggle Fullscreen on image click
+if (modalImg) {
+    modalImg.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+            if (modalImg.requestFullscreen) {
+                modalImg.requestFullscreen().catch(() => {});
+            } else if (modalImg.webkitRequestFullscreen) {
+                modalImg.webkitRequestFullscreen();
+            }
+        } else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen().catch(() => {});
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+            }
+        }
+    });
+}
+
+window.addEventListener('keydown', (e) => {
+    if (modal.classList.contains('active')) {
+        if (e.key === 'Escape') {
+            if (document.fullscreenElement || document.webkitFullscreenElement) {
+                return; // Let browser exit fullscreen first
+            }
+            closeModal();
+        } else if (e.key === 'ArrowLeft' && currentGallery) {
+            showGalleryItem(currentGalleryIndex - 1);
+        } else if (e.key === 'ArrowRight' && currentGallery) {
+            showGalleryItem(currentGalleryIndex + 1);
+        }
+    }
+});
+
+// Contact Form & Direct Contacts Modal
+const contactForm = document.querySelector('.contact-form');
+const contactModal = document.getElementById('contact-modal');
+const contactModalClose = document.getElementById('contact-modal-close');
+
+function openContactModal(name, msg) {
+    if (!contactModal) return;
+    
+    // If visitor filled out the form, pre-populate message for WhatsApp
+    const modalWaBtn = document.getElementById('modal-wa-btn');
+    if (modalWaBtn) {
+        const baseWa = modalWaBtn.getAttribute('data-base-href') || 'https://wa.me/992900444066';
+        if (msg || name) {
+            const textParam = encodeURIComponent(`Здравствуйте, Мухаммадризо! Меня зовут ${name || 'Клиент'}. ${msg || ''}`.trim());
+            modalWaBtn.href = `${baseWa}?text=${textParam}`;
+        } else {
+            modalWaBtn.href = baseWa;
+        }
+    }
+
+    contactModal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeContactModal() {
+    if (!contactModal) return;
+    contactModal.classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+if (contactForm) {
+    contactForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const nameInput = document.getElementById('name');
+        const msgInput = document.getElementById('message');
+        const name = nameInput ? nameInput.value.trim() : '';
+        const msg = msgInput ? msgInput.value.trim() : '';
+        openContactModal(name, msg);
+    });
+}
+
+if (contactModalClose) {
+    contactModalClose.addEventListener('click', closeContactModal);
+}
+
+if (contactModal) {
+    contactModal.addEventListener('click', (e) => {
+        if (e.target === contactModal) {
+            closeContactModal();
+        }
+    });
+}
+
+// Close contact modal on Escape
+window.addEventListener('keydown', (e) => {
+    if (contactModal && contactModal.classList.contains('active')) {
+        if (e.key === 'Escape') {
+            closeContactModal();
+        }
+    }
+});
+
+// Custom cursor hover support for newly added elements
+const newHoverItems = document.querySelectorAll('.quick-contact-badge, .contact-channel-item, #contact-modal-close, .footer-link');
+newHoverItems.forEach(el => {
+    el.addEventListener('mouseenter', () => {
+        if (cursor) cursor.classList.add('hover');
+        if (follower) follower.classList.add('hover');
+    });
+    el.addEventListener('mouseleave', () => {
+        if (cursor) cursor.classList.remove('hover');
+        if (follower) follower.classList.remove('hover');
+    });
+});
+
