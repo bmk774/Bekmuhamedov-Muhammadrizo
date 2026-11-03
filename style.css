@@ -56,7 +56,8 @@ body {
     left: 0;
     pointer-events: none;
     z-index: 9999;
-    transform: translate(-50%, -50%);
+    transform: translate3d(-100px, -100px, 0) translate(-50%, -50%);
+    will-change: transform;
     transition: width 0.3s, height 0.3s, background-color 0.3s;
 }
 
@@ -70,8 +71,9 @@ body {
     left: 0;
     pointer-events: none;
     z-index: 9998;
-    transform: translate(-50%, -50%);
-    transition: transform 0.1s, width 0.3s, height 0.3s, border-color 0.3s;
+    transform: translate3d(-100px, -100px, 0) translate(-50%, -50%);
+    will-change: transform;
+    transition: width 0.3s, height 0.3s, border-color 0.3s, background-color 0.3s;
 }
 
 .cursor.hover {
@@ -303,6 +305,7 @@ h1, h2, h3, h4, h5, h6 {
     width: 180px;
     height: 180px;
     animation: rotate 15s linear infinite;
+    will-change: transform;
     z-index: 1;
 }
 
@@ -488,6 +491,7 @@ h1, h2, h3, h4, h5, h6 {
     text-transform: uppercase;
     letter-spacing: 4px;
     animation: marquee 20s linear infinite;
+    will-change: transform;
     padding-left: 20px;
 }
 
@@ -1193,6 +1197,23 @@ h1, h2, h3, h4, h5, h6 {
     overflow: hidden;
     background: #111;
     position: relative;
+}
+
+.modal-media-wrapper.is-loading::after {
+    content: '';
+    position: absolute;
+    width: 42px;
+    height: 42px;
+    border: 3px solid rgba(255, 255, 255, 0.15);
+    border-top-color: #ffffff;
+    border-radius: 50%;
+    animation: modalSpin 0.75s linear infinite;
+    z-index: 5;
+    pointer-events: none;
+}
+
+@keyframes modalSpin {
+    to { transform: rotate(360deg); }
 }
 
 .modal-img {
