@@ -322,35 +322,40 @@ function showGalleryItem(index) {
         if (modalImg) modalImg.style.display = 'none';
         if (modalVideo) {
             modalVideo.style.display = 'block';
+            const candidates = [work.src].concat(work.fallbacks || (work.fallback ? [work.fallback] : [])).filter(Boolean);
+            let candidateIdx = 0;
+            const loadCandidate = (idx) => {
+                if (idx >= candidates.length) return;
+                candidateIdx = idx;
+                modalVideo.src = encodeURI(candidates[idx]);
+                modalVideo.load();
+                modalVideo.play().catch(() => {});
+            };
             modalVideo.onerror = () => {
-                if (work.fallback && !modalVideo.dataset.triedFallback) {
-                    modalVideo.dataset.triedFallback = 'true';
-                    modalVideo.src = work.fallback;
-                    modalVideo.load();
-                    modalVideo.play().catch(() => {});
+                if (candidateIdx + 1 < candidates.length) {
+                    loadCandidate(candidateIdx + 1);
                 }
             };
-            delete modalVideo.dataset.triedFallback;
-            modalVideo.src = work.src;
-            modalVideo.load();
-            modalVideo.currentTime = 0;
-            modalVideo.play().catch(() => {});
+            loadCandidate(0);
         }
     } else {
         if (modalVideo) {
+            modalVideo.onerror = null;
             modalVideo.pause();
             modalVideo.style.display = 'none';
-            modalVideo.src = '';
+            modalVideo.removeAttribute('src');
+            modalVideo.load();
         }
         if (modalImg) {
             modalImg.style.display = 'block';
-            modalImg.style.background = `url("${work.src}") center/contain no-repeat`;
+            const encodedSrc = encodeURI(work.src);
+            modalImg.style.background = `url("${encodedSrc}") center/contain no-repeat`;
             if (work.fallback) {
                 const probe = new Image();
                 probe.onerror = () => {
-                    modalImg.style.background = `url("${work.fallback}") center/contain no-repeat`;
+                    modalImg.style.background = `url("${encodeURI(work.fallback)}") center/contain no-repeat`;
                 };
-                probe.src = work.src;
+                probe.src = encodedSrc;
             }
         }
     }
@@ -516,9 +521,10 @@ const closeModal = () => {
     document.body.style.overflow = '';
     currentGallery = null;
     if (modalVideo) {
+        modalVideo.onerror = null;
         modalVideo.pause();
-        modalVideo.currentTime = 0;
-        modalVideo.src = '';
+        modalVideo.removeAttribute('src');
+        modalVideo.load();
     }
     // Resume Three.js 3D background
     isThreeJSPaused = false;
