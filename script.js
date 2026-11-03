@@ -351,10 +351,10 @@ function showGalleryItem(index) {
                 wrapper.appendChild(iframeEl);
             }
         }
-        if (iframeEl) {
+        if ( iframeEl ) {
             const ytId = extractYouTubeId(work.src);
             iframeEl.style.display = 'block';
-            iframeEl.src = `https://www.youtube.com/embed/${ytId}?autoplay=1&rel=0&modestbranding=1&playsinline=1&loop=1&playlist=${ytId}`;
+            iframeEl.src = `https://www.youtube.com/embed/${ytId}?autoplay=1&mute=1&rel=0&modestbranding=1&playsinline=1&loop=1&playlist=${ytId}`;
         }
     } else if (work.type === 'video' || useLocalFallback) {
         if (modalImg) modalImg.style.display = 'none';
@@ -365,15 +365,27 @@ function showGalleryItem(index) {
         }
         if (modalVideo) {
             modalVideo.style.display = 'block';
+            modalVideo.muted = true;
+            modalVideo.defaultMuted = true;
+            modalVideo.playsInline = true;
+            modalVideo.autoplay = true;
+            modalVideo.loop = true;
             const primarySrc = useLocalFallback ? work.fallback : work.src;
             const candidates = [primarySrc].concat(work.fallbacks || (work.fallback ? [work.fallback] : [])).filter(Boolean);
             let candidateIdx = 0;
+            const tryPlay = () => {
+                modalVideo.muted = true;
+                modalVideo.play().catch(() => {});
+            };
+            modalVideo.onloadedmetadata = tryPlay;
+            modalVideo.onloadeddata = tryPlay;
+            modalVideo.oncanplay = tryPlay;
             const loadCandidate = (idx) => {
                 if (idx >= candidates.length) return;
                 candidateIdx = idx;
                 modalVideo.src = encodeURI(candidates[idx]);
                 modalVideo.load();
-                modalVideo.play().catch(() => {});
+                tryPlay();
             };
             modalVideo.onerror = () => {
                 if (candidateIdx + 1 < candidates.length) {
@@ -608,6 +620,11 @@ if (modalVideo) {
     modalVideo.controls = false;
     modalVideo.addEventListener('click', (e) => {
         e.stopPropagation();
+        if (modalVideo.paused) {
+            modalVideo.muted = true;
+            modalVideo.play().catch(() => {});
+            return;
+        }
         if (!document.fullscreenElement && !document.webkitFullscreenElement) {
             if (modalVideo.requestFullscreen) {
                 modalVideo.requestFullscreen().catch(() => {});
@@ -735,6 +752,23 @@ newHoverItems.forEach(el => {
     el.addEventListener('mouseleave', () => {
         if (cursor) cursor.classList.remove('hover');
         if (follower) follower.classList.remove('hover');
+    });
+});
+
+// Auto-retry portfolio images if network drops during parallel loading
+document.querySelectorAll('.item-image img').forEach(img => {
+    const rawAttr = img.getAttribute('src');
+    if (rawAttr) {
+        img.src = encodeURI(rawAttr);
+    }
+    img.addEventListener('error', function onImgError() {
+        const retryCount = parseInt(img.dataset.retry || '0', 10);
+        if (retryCount < 3 && rawAttr) {
+            img.dataset.retry = String(retryCount + 1);
+            setTimeout(() => {
+                img.src = encodeURI(rawAttr) + '?retry=' + (retryCount + 1);
+            }, 800 * (retryCount + 1));
+        }
     });
 });
 
