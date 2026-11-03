@@ -116,47 +116,79 @@ const initThreeJS = () => {
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-    // 3D Object (Heavy Metallic Infinity Ring)
-    class InfinityCurve extends THREE.Curve {
-        constructor(scale = 1) {
-            super();
-            this.scale = scale;
-        }
-        getPoint(t, optionalTarget = new THREE.Vector3()) {
-            const angle = 2 * Math.PI * t;
-            const x = Math.sin(angle) * 2.5;
-            const y = Math.sin(angle * 2) * 1.2; 
-            const z = Math.cos(angle * 2) * 0.4;
-            return optionalTarget.set(x, y, z).multiplyScalar(this.scale);
-        }
-    }
-    
-    const geometry = new THREE.TubeGeometry(new InfinityCurve(0.6), 256, 0.18, 64, true);
+    // 3D Object (Metallic 3D Bat Symbol)
+    const batShape = new THREE.Shape();
+    // Start at bottom-center tail tip and trace clockwise
+    batShape.moveTo(0, -0.815);
+    // Bottom left wing arch up to lower left wingtip
+    batShape.bezierCurveTo(-0.35, -0.15, -1.22, -0.08, -1.695, -0.135);
+    // Outer left wing scallop curve up to outer left wingtip
+    batShape.bezierCurveTo(-1.56, 0.22, -1.92, 0.62, -2.415, 0.815);
+    // Flat top left wing edge to inner top wing shoulder
+    batShape.lineTo(-0.805, 0.815);
+    // Inner top left wing curve down to neck/shoulder dip
+    batShape.quadraticCurveTo(-0.73, 0.56, -0.615, 0.505);
+    batShape.quadraticCurveTo(-0.48, 0.445, -0.285, 0.43);
+    // Left neck dip to outer left ear base and up to left ear tip
+    batShape.quadraticCurveTo(-0.225, 0.425, -0.195, 0.445);
+    batShape.quadraticCurveTo(-0.168, 0.50, -0.138, 0.715);
+    // Left ear tip down to inner left ear base
+    batShape.lineTo(-0.105, 0.585);
+    // Flat crown of head across center to inner right ear base
+    batShape.lineTo(0.105, 0.585);
+    // Inner right ear base up to right ear tip
+    batShape.lineTo(0.138, 0.715);
+    // Outer right ear down to neck/shoulder dip
+    batShape.quadraticCurveTo(0.168, 0.50, 0.195, 0.445);
+    batShape.quadraticCurveTo(0.225, 0.425, 0.285, 0.43);
+    // Inner top right wing curve rising to top wing shoulder
+    batShape.quadraticCurveTo(0.48, 0.445, 0.615, 0.505);
+    batShape.quadraticCurveTo(0.73, 0.56, 0.805, 0.815);
+    // Flat top right wing edge to outer wingtip
+    batShape.lineTo(2.415, 0.815);
+    // Outer right wing scallop curve down to lower wingtip
+    batShape.bezierCurveTo(1.92, 0.62, 1.56, 0.22, 1.695, -0.135);
+    // Bottom right wing arch down to center tail tip
+    batShape.bezierCurveTo(1.22, -0.08, 0.35, -0.15, 0, -0.815);
+
+    const extrudeSettings = {
+        depth: 0.06,
+        bevelEnabled: true,
+        bevelThickness: 0.025,
+        bevelSize: 0.012,
+        bevelOffset: -0.004,
+        bevelSegments: 8,
+        curveSegments: 64
+    };
+
+    const geometry = new THREE.ExtrudeGeometry(batShape, extrudeSettings);
+    geometry.center();
+
     const material = new THREE.MeshPhysicalMaterial({
-        color: 0x111111,
-        metalness: 1.0,
-        roughness: 0.15,
-        clearcoat: 1.0,
-        clearcoatRoughness: 0.1,
+        color: 0x0d0d0d,
+        metalness: 0.2,
+        roughness: 0.32,
+        clearcoat: 0.8,
+        clearcoatRoughness: 0.12,
         transparent: false,
         wireframe: false,
-        envMapIntensity: 2.0,
     });
     
     const mesh = new THREE.Mesh(geometry, material);
-    mesh.position.x = 3.5;
+    mesh.scale.set(0.82, 0.82, 0.82);
+    mesh.position.set(3.25, -1.35, 0);
     scene.add(mesh);
 
-    // Lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+    // Lighting (positioned off-axis so flat faces stay dark charcoal and beveled edges catch highlights)
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
     scene.add(ambientLight);
 
-    const pointLight = new THREE.PointLight(0xffffff, 2);
-    pointLight.position.set(5, 5, 5);
+    const pointLight = new THREE.PointLight(0xffffff, 1.6);
+    pointLight.position.set(7, 7, 4);
     scene.add(pointLight);
     
-    const pointLight2 = new THREE.PointLight(0xffffff, 1);
-    pointLight2.position.set(-5, -5, -5);
+    const pointLight2 = new THREE.PointLight(0xffffff, 1.0);
+    pointLight2.position.set(-6, -6, 3);
     scene.add(pointLight2);
 
     // Mouse interaction for 3D
@@ -179,20 +211,21 @@ const initThreeJS = () => {
         
         const elapsedTime = clock.getElapsedTime();
 
-        // Base rotation
-        mesh.rotation.y += 0.002;
-        mesh.rotation.x += 0.001;
-        
         // Gentle floating + Mouse Position Parallax
-        const targetPosX = 3.5 + targetX * 4;
-        const targetPosY = Math.sin(elapsedTime * 0.5) * 0.2 - targetY * 4;
+        const targetPosX = 3.25 + targetX * 3.2;
+        const targetPosY = -1.35 + Math.sin(elapsedTime * 0.9) * 0.16 - targetY * 3.2;
         
         mesh.position.x += (targetPosX - mesh.position.x) * 0.05;
         mesh.position.y += (targetPosY - mesh.position.y) * 0.05;
 
-        // Mouse interaction (Rotation)
-        mesh.rotation.y += 0.1 * (targetX * Math.PI - mesh.rotation.y);
-        mesh.rotation.x += 0.1 * (targetY * Math.PI - mesh.rotation.x);
+        // Smooth 3D sway + Mouse interaction (Rotation)
+        const idleRotY = Math.sin(elapsedTime * 0.7) * 0.32 - 0.18;
+        const idleRotX = Math.cos(elapsedTime * 0.55) * 0.14 - 0.08;
+        const idleRotZ = Math.sin(elapsedTime * 0.45) * 0.06;
+
+        mesh.rotation.y += 0.08 * (idleRotY + targetX * Math.PI * 0.85 - mesh.rotation.y);
+        mesh.rotation.x += 0.08 * (idleRotX + targetY * Math.PI * 0.65 - mesh.rotation.x);
+        mesh.rotation.z += 0.08 * (idleRotZ - targetX * 0.25 - mesh.rotation.z);
 
         renderer.render(scene, camera);
     };
@@ -252,7 +285,7 @@ tl.fromTo(".nav-brand", { y: -20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.
   .fromTo(".hero-subtitle", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" }, "-=0.6")
   .fromTo(".hero-desc", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" }, "-=0.6")
   .fromTo(".hero-btns", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" }, "-=0.6")
-  .fromTo("#webgl-canvas", { opacity: 0 }, { opacity: 0.6, duration: 2, ease: "power2.inOut" }, "-=1");
+  .fromTo("#webgl-canvas", { opacity: 0 }, { opacity: 0.85, duration: 1.5, ease: "power2.inOut" }, "-=1");
 
 // Scroll Animations
 const scrollElements = document.querySelectorAll('[data-scroll]');
