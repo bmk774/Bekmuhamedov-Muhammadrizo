@@ -175,7 +175,7 @@ const initThreeJS = () => {
     });
     
     const mesh = new THREE.Mesh(geometry, material);
-    mesh.scale.set(0.65, 0.74, 1.0);
+    mesh.scale.set(0.45, 0.52, 0.8);
     mesh.position.set(3.25, -1.35, 0);
     scene.add(mesh);
 
