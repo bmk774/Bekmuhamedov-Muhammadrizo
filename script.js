@@ -119,45 +119,45 @@ const initThreeJS = () => {
     // 3D Object (Metallic 3D Bat Symbol)
     const batShape = new THREE.Shape();
     // Start at bottom-center tail tip and trace clockwise
-    batShape.moveTo(0, -0.815);
+    batShape.moveTo(0, -0.86);
     // Bottom left wing arch up to lower left wingtip
-    batShape.bezierCurveTo(-0.35, -0.15, -1.22, -0.08, -1.695, -0.135);
+    batShape.bezierCurveTo(-0.36, -0.19, -1.22, -0.11, -1.695, -0.175);
     // Outer left wing scallop curve up to outer left wingtip
-    batShape.bezierCurveTo(-1.56, 0.22, -1.92, 0.62, -2.415, 0.815);
+    batShape.bezierCurveTo(-1.56, 0.20, -1.92, 0.63, -2.415, 0.835);
     // Flat top left wing edge to inner top wing shoulder
-    batShape.lineTo(-0.805, 0.815);
+    batShape.lineTo(-0.805, 0.835);
     // Inner top left wing curve down to neck/shoulder dip
-    batShape.quadraticCurveTo(-0.73, 0.56, -0.615, 0.505);
-    batShape.quadraticCurveTo(-0.48, 0.445, -0.285, 0.43);
+    batShape.quadraticCurveTo(-0.73, 0.575, -0.615, 0.52);
+    batShape.quadraticCurveTo(-0.48, 0.46, -0.285, 0.445);
     // Left neck dip to outer left ear base and up to left ear tip
-    batShape.quadraticCurveTo(-0.225, 0.425, -0.195, 0.445);
-    batShape.quadraticCurveTo(-0.168, 0.50, -0.138, 0.715);
+    batShape.quadraticCurveTo(-0.23, 0.44, -0.20, 0.46);
+    batShape.quadraticCurveTo(-0.175, 0.52, -0.145, 0.74);
     // Left ear tip down to inner left ear base
-    batShape.lineTo(-0.105, 0.585);
+    batShape.lineTo(-0.112, 0.60);
     // Flat crown of head across center to inner right ear base
-    batShape.lineTo(0.105, 0.585);
+    batShape.lineTo(0.112, 0.60);
     // Inner right ear base up to right ear tip
-    batShape.lineTo(0.138, 0.715);
+    batShape.lineTo(0.145, 0.74);
     // Outer right ear down to neck/shoulder dip
-    batShape.quadraticCurveTo(0.168, 0.50, 0.195, 0.445);
-    batShape.quadraticCurveTo(0.225, 0.425, 0.285, 0.43);
+    batShape.quadraticCurveTo(0.175, 0.52, 0.20, 0.46);
+    batShape.quadraticCurveTo(0.23, 0.44, 0.285, 0.445);
     // Inner top right wing curve rising to top wing shoulder
-    batShape.quadraticCurveTo(0.48, 0.445, 0.615, 0.505);
-    batShape.quadraticCurveTo(0.73, 0.56, 0.805, 0.815);
+    batShape.quadraticCurveTo(0.48, 0.46, 0.615, 0.52);
+    batShape.quadraticCurveTo(0.73, 0.575, 0.805, 0.835);
     // Flat top right wing edge to outer wingtip
-    batShape.lineTo(2.415, 0.815);
+    batShape.lineTo(2.415, 0.835);
     // Outer right wing scallop curve down to lower wingtip
-    batShape.bezierCurveTo(1.92, 0.62, 1.56, 0.22, 1.695, -0.135);
+    batShape.bezierCurveTo(1.92, 0.63, 1.56, 0.20, 1.695, -0.175);
     // Bottom right wing arch down to center tail tip
-    batShape.bezierCurveTo(1.22, -0.08, 0.35, -0.15, 0, -0.815);
+    batShape.bezierCurveTo(1.22, -0.11, 0.36, -0.19, 0, -0.86);
 
     const extrudeSettings = {
-        depth: 0.06,
+        depth: 0.20,
         bevelEnabled: true,
-        bevelThickness: 0.025,
-        bevelSize: 0.012,
+        bevelThickness: 0.055,
+        bevelSize: 0.016,
         bevelOffset: -0.004,
-        bevelSegments: 8,
+        bevelSegments: 10,
         curveSegments: 64
     };
 
@@ -166,16 +166,16 @@ const initThreeJS = () => {
 
     const material = new THREE.MeshPhysicalMaterial({
         color: 0x0d0d0d,
-        metalness: 0.2,
-        roughness: 0.32,
-        clearcoat: 0.8,
+        metalness: 0.22,
+        roughness: 0.3,
+        clearcoat: 0.85,
         clearcoatRoughness: 0.12,
         transparent: false,
         wireframe: false,
     });
     
     const mesh = new THREE.Mesh(geometry, material);
-    mesh.scale.set(0.82, 0.82, 0.82);
+    mesh.scale.set(0.84, 0.95, 1.0);
     mesh.position.set(3.25, -1.35, 0);
     scene.add(mesh);
 
