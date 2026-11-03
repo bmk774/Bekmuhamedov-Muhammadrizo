@@ -1551,8 +1551,84 @@ h1, h2, h3, h4, h5, h6 {
         font-size: 3rem;
     }
     
+    /* Mobile Modal Optimizations */
+    .modal-close {
+        top: 16px;
+        right: 16px;
+        font-size: 2.2rem;
+        width: 42px;
+        height: 42px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.12);
+        border-radius: 50%;
+    }
+
+    .modal-content {
+        width: 94%;
+        gap: 14px;
+    }
+
+    .modal-media-wrapper {
+        height: 48vh;
+        max-height: 48vh;
+        border-radius: 10px;
+        touch-action: pan-y;
+    }
+
+    .modal-video,
+    .modal-iframe {
+        max-height: 48vh;
+    }
+
+    .gallery-arrow {
+        width: 38px;
+        height: 38px;
+        font-size: 1.25rem;
+    }
+
+    .gallery-arrow.prev {
+        left: 10px;
+    }
+
+    .gallery-arrow.next {
+        right: 10px;
+    }
+
+    .modal-gallery-tabs {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        gap: 8px;
+        margin-top: 0;
+        padding-bottom: 4px;
+    }
+
+    .modal-gallery-tabs::-webkit-scrollbar {
+        display: none;
+    }
+
+    .gallery-pill {
+        padding: 8px 14px;
+        font-size: 0.75rem;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+
     .modal-title {
-        font-size: 1.8rem;
+        font-size: 1.3rem;
+        line-height: 1.25;
+    }
+
+    .modal-counter {
+        font-size: 1.1rem;
+        flex-shrink: 0;
+    }
+
+    .modal-category {
+        font-size: 0.85rem;
     }
     
     .marquee-content {
