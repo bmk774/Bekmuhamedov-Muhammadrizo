@@ -99,195 +99,6 @@ window.addEventListener('scroll', () => {
     }
 }, { passive: true });
 
-let isThreeJSPaused = false;
-let resumeThreeJS = null;
-
-// Three.js Background
-const initThreeJS = () => {
-    const canvas = document.querySelector('#webgl-canvas');
-    if (!canvas || typeof THREE === 'undefined') return;
-    const scene = new THREE.Scene();
-    let isMobileView = window.innerWidth <= 768;
-    
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.z = 5;
-
-    const renderer = new THREE.WebGLRenderer({
-        canvas,
-        alpha: true,
-        antialias: !isMobileView,
-        powerPreference: 'high-performance'
-    });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(isMobileView ? 1 : Math.min(window.devicePixelRatio, 1.5));
-
-    // 3D Object (Metallic 3D Bat Symbol)
-    const batShape = new THREE.Shape();
-    // Start at bottom-center tail tip and trace clockwise
-    batShape.moveTo(0, -0.86);
-    // Bottom left wing arch up to lower left wingtip
-    batShape.bezierCurveTo(-0.36, -0.19, -1.22, -0.11, -1.695, -0.175);
-    // Outer left wing scallop curve up to outer left wingtip
-    batShape.bezierCurveTo(-1.56, 0.20, -1.92, 0.63, -2.415, 0.835);
-    // Flat top left wing edge to inner top wing shoulder
-    batShape.lineTo(-0.805, 0.835);
-    // Inner top left wing curve down to neck/shoulder dip
-    batShape.quadraticCurveTo(-0.73, 0.575, -0.615, 0.52);
-    batShape.quadraticCurveTo(-0.48, 0.46, -0.285, 0.445);
-    // Left neck dip to outer left ear base and up to left ear tip
-    batShape.quadraticCurveTo(-0.23, 0.44, -0.20, 0.46);
-    batShape.quadraticCurveTo(-0.175, 0.52, -0.145, 0.74);
-    // Left ear tip down to inner left ear base
-    batShape.lineTo(-0.112, 0.60);
-    // Flat crown of head across center to inner right ear base
-    batShape.lineTo(0.112, 0.60);
-    // Inner right ear base up to right ear tip
-    batShape.lineTo(0.145, 0.74);
-    // Outer right ear down to neck/shoulder dip
-    batShape.quadraticCurveTo(0.175, 0.52, 0.20, 0.46);
-    batShape.quadraticCurveTo(0.23, 0.44, 0.285, 0.445);
-    // Inner top right wing curve rising to top wing shoulder
-    batShape.quadraticCurveTo(0.48, 0.46, 0.615, 0.52);
-    batShape.quadraticCurveTo(0.73, 0.575, 0.805, 0.835);
-    // Flat top right wing edge to outer wingtip
-    batShape.lineTo(2.415, 0.835);
-    // Outer right wing scallop curve down to lower wingtip
-    batShape.bezierCurveTo(1.92, 0.63, 1.56, 0.20, 1.695, -0.175);
-    // Bottom right wing arch down to center tail tip
-    batShape.bezierCurveTo(1.22, -0.11, 0.36, -0.19, 0, -0.86);
-
-    const extrudeSettings = {
-        depth: 0.20,
-        bevelEnabled: true,
-        bevelThickness: 0.055,
-        bevelSize: 0.016,
-        bevelOffset: -0.004,
-        bevelSegments: isMobileView ? 3 : 5,
-        curveSegments: isMobileView ? 20 : 32
-    };
-
-    const geometry = new THREE.ExtrudeGeometry(batShape, extrudeSettings);
-    geometry.center();
-
-    const material = new THREE.MeshPhysicalMaterial({
-        color: 0x0d0d0d,
-        metalness: 0.22,
-        roughness: 0.3,
-        clearcoat: 0.85,
-        clearcoatRoughness: 0.12,
-        transparent: false,
-        wireframe: false,
-    });
-    
-    const mesh = new THREE.Mesh(geometry, material);
-    let basePosX = isMobileView ? 0.0 : 3.25;
-    let basePosY = isMobileView ? -1.45 : -1.35;
-    const applyMeshLayout = () => {
-        isMobileView = window.innerWidth <= 768;
-        basePosX = isMobileView ? 0.0 : 3.25;
-        basePosY = isMobileView ? -1.45 : -1.35;
-        if (isMobileView) {
-            mesh.scale.set(0.32, 0.37, 0.65);
-        } else {
-            mesh.scale.set(0.45, 0.52, 0.8);
-        }
-    };
-    applyMeshLayout();
-    mesh.position.set(basePosX, basePosY, 0);
-    scene.add(mesh);
-
-    // Lighting (positioned off-axis so flat faces stay dark charcoal and beveled edges catch highlights)
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-    scene.add(ambientLight);
-
-    const pointLight = new THREE.PointLight(0xffffff, 1.6);
-    pointLight.position.set(7, 7, 4);
-    scene.add(pointLight);
-    
-    const pointLight2 = new THREE.PointLight(0xffffff, 1.0);
-    pointLight2.position.set(-6, -6, 3);
-    scene.add(pointLight2);
-
-    // Mouse interaction for 3D
-    let targetX = 0;
-    let targetY = 0;
-    let windowHalfX = window.innerWidth / 2;
-    let windowHalfY = window.innerHeight / 2;
-
-    if (!isTouchDevice) {
-        document.addEventListener('mousemove', (e) => {
-            targetX = (e.clientX - windowHalfX) * 0.001;
-            targetY = (e.clientY - windowHalfY) * 0.001;
-        }, { passive: true });
-    }
-
-    // Animation Loop
-    const clock = new THREE.Clock();
-    let isRunning = false;
-
-    const animate = () => {
-        if (isThreeJSPaused || document.hidden) {
-            isRunning = false;
-            return;
-        }
-        isRunning = true;
-        requestAnimationFrame(animate);
-        
-        const elapsedTime = clock.getElapsedTime();
-
-        // Gentle floating + Mouse Position Parallax
-        const targetPosX = basePosX + targetX * 3.2;
-        const targetPosY = basePosY + Math.sin(elapsedTime * 0.9) * 0.16 - targetY * 3.2;
-        
-        mesh.position.x += (targetPosX - mesh.position.x) * 0.05;
-        mesh.position.y += (targetPosY - mesh.position.y) * 0.05;
-
-        // Smooth 3D sway + Mouse interaction (Rotation)
-        const idleRotY = Math.sin(elapsedTime * 0.7) * 0.32 - 0.18;
-        const idleRotX = Math.cos(elapsedTime * 0.55) * 0.14 - 0.08;
-        const idleRotZ = Math.sin(elapsedTime * 0.45) * 0.06;
-
-        mesh.rotation.y += 0.08 * (idleRotY + targetX * Math.PI * 0.85 - mesh.rotation.y);
-        mesh.rotation.x += 0.08 * (idleRotX + targetY * Math.PI * 0.65 - mesh.rotation.x);
-        mesh.rotation.z += 0.08 * (idleRotZ - targetX * 0.25 - mesh.rotation.z);
-
-        renderer.render(scene, camera);
-    };
-
-    resumeThreeJS = () => {
-        if (!isRunning && !isThreeJSPaused && !document.hidden) {
-            clock.getDelta();
-            animate();
-        }
-    };
-
-    document.addEventListener('visibilitychange', () => {
-        if (!document.hidden && !isThreeJSPaused) {
-            resumeThreeJS();
-        }
-    });
-
-    animate();
-
-    // Throttled resize handler
-    let resizeRaf = null;
-    window.addEventListener('resize', () => {
-        if (resizeRaf) return;
-        resizeRaf = requestAnimationFrame(() => {
-            resizeRaf = null;
-            windowHalfX = window.innerWidth / 2;
-            windowHalfY = window.innerHeight / 2;
-            applyMeshLayout();
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(isMobileView ? 1 : Math.min(window.devicePixelRatio, 1.5));
-        });
-    }, { passive: true });
-};
-
-initThreeJS();
-
 // 3D Tilt Effect for Cards (rAF-throttled & cached bounding rect to prevent layout thrashing)
 const tiltCards = document.querySelectorAll('.tilt-card');
 
@@ -340,8 +151,7 @@ tl.fromTo(".nav-brand", { y: -20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.
   .fromTo(".hero-title .block", { y: 100, opacity: 0 }, { y: 0, opacity: 1, duration: 1, stagger: 0.2, ease: "power4.out" }, "-=0.8")
   .fromTo(".hero-subtitle", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" }, "-=0.6")
   .fromTo(".hero-desc", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" }, "-=0.6")
-  .fromTo(".hero-btns", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" }, "-=0.6")
-  .fromTo("#webgl-canvas", { opacity: 0 }, { opacity: 0.85, duration: 1.5, ease: "power2.inOut" }, "-=1");
+  .fromTo(".hero-btns", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" }, "-=0.6");
 
 // Scroll Animations
 const scrollElements = document.querySelectorAll('[data-scroll]');
@@ -764,8 +574,7 @@ portfolioItems.forEach(item => {
                 });
             }
             
-            // Free GPU for video: pause Three.js and background video
-            isThreeJSPaused = true;
+            // Free GPU for video: pause background video
             document.querySelectorAll('.item-image video').forEach(v => v.pause());
 
             showGalleryItem(0);
@@ -807,8 +616,7 @@ portfolioItems.forEach(item => {
         modalTitle.textContent = title;
         modalCategory.textContent = category;
         
-        // Free GPU for video: pause Three.js and background video
-        isThreeJSPaused = true;
+        // Free GPU for video: pause background video
         document.querySelectorAll('.item-image video').forEach(v => v.pause());
 
         const singleIframe = modalIframe || document.querySelector('.modal-iframe');
@@ -868,9 +676,6 @@ const closeModal = () => {
         iframeEl.style.display = 'none';
         iframeEl.src = '';
     }
-    // Resume Three.js 3D background
-    isThreeJSPaused = false;
-    if (typeof resumeThreeJS === 'function') resumeThreeJS();
     // Resume any paused background card image downloads
     resumeBackgroundImageDownloads();
     // Resume background card videos
